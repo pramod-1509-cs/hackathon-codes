@@ -1,0 +1,9 @@
+we are building a react project where we are building a website for research conference for aur college , we have six objectvies
+1.research conference notification (we need to email all other colleges email address and all author email address)(doubt)
+2.author login/registration
+3.paper submission
+4.Paper Review Process
+5. Paper acceptance/rejection with reviewer comments 
+6.Paper Registration(doubt) with payment
+
+now tell me step by step in detail how should i achieve this
