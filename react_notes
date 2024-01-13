@@ -1,0 +1,293 @@
+1)create a folder with some name (all letters of name must be smallcase eg: "pj_1" )
+
+2) npx create-react-app .
+
+3)clear all clutter & delete unnecessary files
+
+4) for routing 
+ i)   npm i react-router-dom
+ ii)  add below 3 lines in index.js and wrap App 
+
+      import React from "react";
+      import ReactDOM from "react-dom/client";
+      import { BrowserRouter as Router } from "react-router-dom";
+
+      <Router>
+         <App />
+      </Router>
+ iii) add below line in App.js and routes code inside return()
+
+      import { Routes, Route } from "react-router-dom";
+      
+      <Routes>
+        <Route path="/navbar" element={<Navbar />} />
+        <Route path="/c1" element={<C1 />} />
+      </Routes>
+ iv)  now below is code of a typical component
+      //App.js
+      <Navbar
+        image="url-to-image"
+        alt="Card Image"
+        title="Card Title 1"
+        description="This is the description for Card 1."
+      />
+      //Navbar.jsx
+      import React from 'react'
+      import './Navbar.css'
+
+      function Navbar(props) {
+        return (
+           <div className="card">
+              <img src={props.image} alt={props.alt} />
+                <div className="card-body">
+                  <h3>{props.title}</h3>
+                    <p>{props.description}</p>
+                </div>
+           </div>
+       )
+      }
+
+      export default Navbar
+
+
+ 5) Getting array of obj data from datafile_1.js and diplaying it
+   i) datafile_1.js contents
+      const dataArray = [
+           { id: 1, name: "Object 1", description: "Description for Object 1" },
+           { id: 2, name: "Object 2", description: "Description for Object 2" },
+      ];
+
+      export default dataArray;
+    
+   ii)In App.js paste below code to display it (make sure to import dataArray in App.js)
+
+      <ul>
+        {dataArray.map((item) => (
+          <li key={item.id}>
+            <strong>{item.name}</strong>: {item.description}
+          </li>
+        ))}
+      </ul>
+
+
+    
+ 6) Functional Component with useState Hook:
+    
+    import React, { useState } from "react";
+
+    function Count() {
+    const [count, setCount] = useState(0);
+    const incrementCount = () => {
+    setCount(prevCount => prevCount + 1);
+     };
+
+    return (
+       <div>
+         <h1>Count component</h1>
+         {count > 0 ? (
+               <p>Count: {count}</p>
+                      ) : (
+                          <p>Count is zero</p>
+                          )}
+      <button onClick={incrementCount}>Click here</button>
+     </div>
+   );
+   }
+
+   export default Count;
+
+ 7) same as above , but here we can access useState outside the component
+    
+    import React, { useState } from "react";
+
+    function Count(props) {
+    const [counter, setCount] = useState(0);
+
+    const incrementCount = () => {
+    setCount(prevCount => prevCount + 1);
+    };
+
+  8) Sending counter state outside the component using the callback function ("i haven't understood this one")
+    if (typeof props.onCountChange === "function") {  //changed here
+     props.onCountChange(count);
+    }                                    
+
+   return (
+    <div>
+      <h1>Count component</h1>
+      {counter > 0 ? (
+        <p>Count: {counter}</p>
+      ) : (
+        <p>Count is zero</p>
+      )}
+      <button onClick={incrementCount}>Click here</button>
+    </div>
+   );
+  }
+
+  export default Count;
+
+ 9) React states (basics)
+   
+  i) first as we saw we can use state in maintaining and setting count variable
+   
+ ii) we can alsouse this for form handling
+    
+   import React, { useState } from 'react';
+
+   const FormExample = () => {
+   const [inputValue, setInputValue] = useState('');
+
+   const handleChange = (event) => {
+    setInputValue(event.target.value);
+   };
+
+   const handleSubmit = (event) => {
+    event.preventDefault();
+   };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={inputValue} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+    );
+   };
+
+iii) using state for Toggle Visibility
+   import React, { useState } from 'react';
+
+   const ToggleVisibility = () => {
+   const [isVisible, setIsVisible] = useState(false);
+
+   const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+   };
+
+   return (
+    <div>
+      <button onClick={toggleVisibility}>Toggle Visibility</button>
+      {isVisible && <p>This is visible!</p>}
+    </div>
+   );
+  };
+
+iV) using state for Conditional Rendering (it is very much similar to toggle visibility)
+   import React, { useState } from 'react';
+
+   const ConditionalRendering = () => {
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+   return (
+    <div>
+      {isLoggedIn ? (
+        <p>Welcome, User!</p>
+      ) : (
+        <button onClick={() => setIsLoggedIn(true)}>Log In</button>
+      )}
+    </div>
+    );
+  };
+
+v) using state in Fetching Data
+   import React, { useState, useEffect } from 'react';
+
+   const DataFetching = () => {
+   const [data, setData] = useState(null);
+
+   useEffect(() => {
+    // Fetch data from the JSONPlaceholder API
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => response.json())
+      .then((result) => setData(result))
+      .catch((error) => console.error('Error fetching data:', error));
+     }, []);
+
+    return (
+     <div>
+      {data ? (
+        <ul>
+          {data.map((item) => (
+            <li key={item.id}>{item.title}</li>
+          ))}
+        </ul>
+       ) : (
+         <p>Loading data...</p>
+       )}
+     </div>
+    );
+   };
+
+   export default DataFetching;
+
+10) Form validation using react-hook-form
+
+  i) first run  npm i react-hook-form
+
+  ii) create a formvalidation component and add below code
+
+    // Import necessary hooks and components
+    import React from 'react';
+    import { useForm, Controller } from 'react-hook-form';
+
+    // Create your form component
+    const MyForm = () => {
+    // Initialize the react-hook-form hook
+    const { handleSubmit, control, register, formState: { errors, isSubmitting } } = useForm();
+
+    // Define a function to handle form submission
+    const onSubmit = (data) => {
+    console.log(data); // Do something with the form data
+    };
+
+    return (
+    // Use the handleSubmit function and pass your onSubmit function
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Use the register function to register your input fields */}
+      <label>
+        First Name:
+        <input {...register('firstName', { required: 'This field is required' })} />
+      </label>
+      {/* Display errors using the errors object */}
+      {errors.firstName && <p>{errors.firstName.message}</p>}
+
+      <label>
+        Last Name:
+        <input {...register('lastName', { minLength: { value: 3, message: 'Too short' } })} />
+      </label>
+      {errors.lastName && <p>{errors.lastName.message}</p>}
+
+      {/* Using Controller for custom components like React Select */}
+      <Controller
+        name="gender"
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <div>
+            <label>Gender:</label>
+            <select {...field}>
+              <option value="" disabled>Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        )}
+        rules={{ required: 'This field is required' }}
+      />
+      {errors.gender && <p>{errors.gender.message}</p>}
+
+      {/* Disable the form while it's submitting */}
+      <button type="submit" disabled={isSubmitting}>
+        Submit
+         </button>
+      </form>
+     );
+    };
+
+    export default MyForm;
+
+
+11 ) 
+
+    
