@@ -1,0 +1,16 @@
+//git cmds to upload newly created repo
+git init
+git add README.md
+git add .
+git commit -m "commit msg"
+git branch -M main
+git remote add origin <add-git-repo-link-here>
+git push -u origin main 
+ 
+//for updating changes
+git add .
+git commit -m "commit msg"
+git push -u origin main
+
+//for cloning someone's git repo
+git clone <add-git-repo-link-here>
